@@ -94,10 +94,3 @@ service ueventd /sbin/ueventd
 service recovery /system/bin/recovery
 
 service adbd /sbin/adbd recovery
-    disabled
-
-#on property:persist.service.adb.enable=1
-#    start adbd
-
-#on property:persist.service.adb.enable=0
-#    stop adbd
