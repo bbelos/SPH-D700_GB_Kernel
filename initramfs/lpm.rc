@@ -40,6 +40,7 @@ on early-fs
 on fs
     mount tmpfs tmpfs /tmp
     mount rfs /dev/block/stl9 /system check=no
+    mount ext4 /dev/block/stl9 /system noatime nodiratime errors=continue
     #mount rfs /dev/block/stl9 /system ro remount
 
     exec apply_disk_policy
