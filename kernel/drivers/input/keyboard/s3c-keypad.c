@@ -325,7 +325,7 @@ static irqreturn_t s3c_keypad_isr(int irq, void *dev_id)
 	writel(readl(key_base+S3C_KEYIFCON) & ~(INT_F_EN|INT_R_EN), key_base+S3C_KEYIFCON);
 
 	//keypad_timer.expires = jiffies;
-      	keypad_timer.expires = jiffies + TIMER_DELAY; // victory froyo merge nandu
+        keypad_timer.expires = jiffies + TIMER_DELAY; // victory froyo merge nandu
 
 
 
