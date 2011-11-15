@@ -761,6 +761,12 @@ service pppd_cdma /system/bin/pppd_runner
     group radio cache inet misc system
     oneshot
 
+service bootanim /system/bin/bootanimation
+	user graphics
+	group graphics
+	critical
+	oneshot
+
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
     socket zygote stream 666
     onrestart write /sys/android_power/request_state wake
@@ -774,11 +780,11 @@ service media /system/bin/mediaserver
     ioprio rt 4
 
 
-service samsungani /system/bin/samsungani
-    user graphics
-    group graphics
-    disabled
-    oneshot
+#service samsungani /system/bin/samsungani
+#    user graphics
+#    group graphics
+#    disabled
+#    oneshot
 
 
 service playsound /system/bin/playsound
@@ -908,3 +914,6 @@ service wimax_route /system/bin/route add default dev uwbr0
 service wimax_renew /system/bin/dhcpcd -n uwbr0
         disabled
         oneshot	
+
+on property:sys.boot_completed=1
+stop bootanim
