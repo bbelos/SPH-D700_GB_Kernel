@@ -65,6 +65,9 @@ if [ ! -f "/system/etc/resolv.conf" ]; then
 	echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
 fi
 sync
+if [ -f "/system/media/bootanimation.zip" ]; then
+ln -s /system/media/bootanimation.zip /system/media/sanim.zip
+fi
 
 # remount read only and continue
 busybox  mount -o remount,ro / /
