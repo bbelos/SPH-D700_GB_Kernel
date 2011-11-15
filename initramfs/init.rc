@@ -199,7 +199,21 @@ on fs
  	
     insmod /lib/modules/wimax_gpio.ko
     insmod /lib/modules/cmc7xx_sdio.ko
-	
+#root
+    chown root system /sbin/su
+    symlink /sbin/busybox /sbin/recovery
+    chown root root /sbin/Superuser.apk
+    chown root system /sbin/busybox
+    chown root system /sbin/userscript.sh
+    chmod 6755 /sbin/su
+    chmod 6755 /sbin/adbd
+    chmod 6755 /sbin/busybox
+    chmod 0644 /sbin/Superuser.apk
+    chmod 0755 /sbin/userscript.sh
+    symlink /system/bin/su /system/xbin/su
+    chmod 6755 /system/bin/su
+    symlink /system/bin/busybox /system/xbin/busybox
+    chmod 0644 /system/app/Superuser.apk	
 
 on post-fs
     # once everything is setup, no need to modify /
@@ -760,6 +774,13 @@ service pppd_cdma /system/bin/pppd_runner
     user root
     group radio cache inet misc system
     oneshot
+
+# Custom Script Configuration
+service userscript /system/bin/sh /bin/userscript.sh
+	user root
+	group system
+	critical	
+	oneshot
 
 service bootanim /system/bin/bootanimation
 	user graphics
