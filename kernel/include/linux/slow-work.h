@@ -14,7 +14,7 @@
 #ifndef _LINUX_SLOW_WORK_H
 #define _LINUX_SLOW_WORK_H
 
-#ifdef CONFIG_SLOW_WORK
+#if defined(CONFIG_SLOW_WORK) || defined(CONFIG_SLOW_WORK_MODULE)
 
 #include <linux/sysctl.h>
 #include <linux/timer.h>
@@ -159,5 +159,5 @@ extern bool slow_work_sleep_till_thread_needed(struct slow_work *work,
 extern ctl_table slow_work_sysctls[];
 #endif
 
-#endif /* CONFIG_SLOW_WORK */
+#endif /* defined(CONFIG_SLOW_WORK) || defined(CONFIG_SLOW_WORK_MODULE) */
 #endif /* _LINUX_SLOW_WORK_H */

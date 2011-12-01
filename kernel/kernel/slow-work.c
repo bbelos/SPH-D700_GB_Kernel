@@ -1066,3 +1066,4 @@ static int __init init_slow_work(void)
 }
 
 subsys_initcall(init_slow_work);
+MODULE_LICENSE("GPL");
