@@ -48,7 +48,10 @@ fi
 TARGET_LOCALE="vzw"
 
 #uncomment to add custom version string
-#export KBUILD_BUILD_VERSION="nubernel-EC05_v0.0.0"
+CUSTOMVERSION="Shadow-EI22_v1.0"
+export KBUILD_BUILD_VERSION=$CUSTOMVERSION
+LOCALVERSION_STRING="-$CUSTOMVERSION"
+
 DEFCONFIG_STRING=victory_8G_defconfig
 
 #TOOLCHAIN=`pwd`/toolchains/android-toolchain-4.4.3/bin
@@ -106,7 +109,7 @@ BUILD_KERNEL()
 		export KDIR=`pwd`
 		make ARCH=arm $DEFCONFIG_STRING
 #		make -j$CPU_JOB_NUM ARCH=arm CROSS_COMPILE=$TOOLCHAIN/$TOOLCHAIN_PREFIX
-		make V=1 -j$CPU_JOB_NUM ARCH=arm CROSS_COMPILE=$TOOLCHAIN/$TOOLCHAIN_PREFIX 2>&1 | tee make.out
+		make V=1 -j$CPU_JOB_NUM ARCH=arm CROSS_COMPILE=$TOOLCHAIN/$TOOLCHAIN_PREFIX LOCALVERSION=$LOCALVERSION_STRING 2>&1 | tee make.out
 	popd
 }
 
