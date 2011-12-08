@@ -822,6 +822,12 @@ struct input_absinfo {
 #define KERNEL_SEC_FORCED_UPLOAD_1ST_KEY  50       /*OK KEY*/
 #endif
 #define KERNEL_SEC_FORCED_UPLOAD_2ND_KEY  42       /*UP KEY*/
+#if defined CONFIG_MACH_VICTORY
+//Thomas Ryu, Define the KYEs for HARD Reset
+#define KERNEL_SEC_HARDRESET_KEY1 51  //Volume Up
+#define KERNEL_SEC_HARDRESET_KEY2 116 //PWR
+#define KERNEL_SEC_HARDRESET_KEY3 46  //Camera
+#endif
 #endif
 
 /*
