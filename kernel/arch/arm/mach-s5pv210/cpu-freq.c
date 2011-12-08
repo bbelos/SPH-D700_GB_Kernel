@@ -562,7 +562,7 @@ static int s5pv210_cpufreq_target(struct cpufreq_policy *policy,
 	cpufreq_debug_printk(CPUFREQ_DEBUG_DRIVER, KERN_INFO,
 			"cpufreq: Entering for %dkHz\n", target_freq);
 
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 	printk("FREQ: cpufreq: Entering for target: %dMHz\n", (target_freq/1000));
 #endif
 
@@ -601,7 +601,7 @@ static int s5pv210_cpufreq_target(struct cpufreq_policy *policy,
         if (g_dvfs_high_lock_token) {
                 if (index > g_dvfs_high_lock_limit) {
                         index = g_dvfs_high_lock_limit;
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 												printk("FREQ: g_dvfs_high_lock_limit applied: %u (%uMHz) \n",
 																index, (freq_table[index].frequency/1000));
 #endif
@@ -610,7 +610,7 @@ static int s5pv210_cpufreq_target(struct cpufreq_policy *policy,
 #endif
 	arm_clk = freq_table[index].frequency;
 
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 	printk("FREQ: found index: %d, freq: %dMHz (target: %uMHz) \n",
 					index, (arm_clk/1000), (target_freq/1000));
 #endif
@@ -629,7 +629,7 @@ static int s5pv210_cpufreq_target(struct cpufreq_policy *policy,
 	freq_uv_table[index][2] = (int)(arm_volt/1000);
 	int_volt = dvs_conf[index].int_volt;
 
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 	printk("FREQ: setting vdd %umV for speed %uMHz \n", (arm_volt/1000), (freq_table[index].frequency/1000));
 	printk("FREQ: freq_uv_table[%u][2]: %u,  arm_volt: %u \n",
 					index, freq_uv_table[index][2], arm_volt);
@@ -822,7 +822,7 @@ static int s5pv210_cpufreq_target(struct cpufreq_policy *policy,
 	previous_arm_volt = (dvs_conf[index].arm_volt - (exp_UV_mV[index] * 1000));
 	freq_uv_table[index][2] = (int)(previous_arm_volt/1000);
 
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 	printk("FREQ: cpufreq: Performance changed[L%d] \n", index);
 	printk("FREQ: setting vdd %umV for speed %uMHz \n", (previous_arm_volt/1000), (freq_table[index].frequency/1000));
 	printk("FREQ: freq_uv_table[%u][2]: %u,  previous_arm_volt: %u \n",
@@ -874,7 +874,7 @@ static int s5pv210_cpufreq_resume(struct cpufreq_policy *policy)
 	previous_arm_volt = (dvs_conf[level].arm_volt - (exp_UV_mV[level] * 1000));
 	freq_uv_table[level][2] = (int)(previous_arm_volt/1000);
 
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 	printk("FREQ: resuming with vdd %umV for speed %uMHz \n", (previous_arm_volt/1000), (freq_table[level].frequency/1000));
 	printk("FREQ: freq_uv_table[%u][2]: %u,  previous_arm_volt: %u \n",
 					level, freq_uv_table[level][2], previous_arm_volt);
@@ -949,7 +949,7 @@ static int __init s5pv210_cpufreq_driver_init(struct cpufreq_policy *policy)
 	previous_arm_volt = (dvs_conf[level].arm_volt - (exp_UV_mV[level] * 1000));
 	freq_uv_table[level][2] = (int)(previous_arm_volt/1000);
 
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 	printk("FREQ: initialising with vdd %umV for speed %uMHz \n", (previous_arm_volt/1000), (freq_table[level].frequency/1000));
 	printk("FREQ: freq_uv_table[%u][2]: %u,  previous_arm_volt: %u \n",
 					level, freq_uv_table[level][2], previous_arm_volt);

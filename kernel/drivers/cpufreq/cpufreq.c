@@ -1380,7 +1380,7 @@ static unsigned int __cpufreq_get(unsigned int cpu)
 
 	ret_freq = cpufreq_driver->get(cpu);
 
-#ifdef NC_DEBUG
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
 	printk("FREQ: %s: ret_freq: %uMHz, policy->cur: %uMHz \n", __func__, (ret_freq/1000), (policy->cur/1000));
 #endif
 
