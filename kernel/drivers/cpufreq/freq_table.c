@@ -14,8 +14,14 @@
 #include <linux/init.h>
 #include <linux/cpufreq.h>
 
+#ifdef CONFIG_MACH_VICTORY
+#include <mach/cpu-freq-v210.h>
+#endif
+
 #define dprintk(msg...) \
 	cpufreq_debug_printk(CPUFREQ_DEBUG_CORE, "freq-table", msg)
+
+extern int enabled_freqs[NUM_FREQ];
 
 /*********************************************************************
  *                     FREQUENCY TABLE HELPERS                       *
@@ -113,6 +119,11 @@ int cpufreq_frequency_table_target(struct cpufreq_policy *policy,
 	dprintk("request for target %u kHz (relation: %u) for cpu %u\n",
 					target_freq, relation, policy->cpu);
 
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
+	printk("FREQ: request for target %u MHz (relation: %u) for cpu %u\n",
+					(target_freq/1000), relation, policy->cpu);
+#endif
+
 	switch (relation) {
 	case CPUFREQ_RELATION_H:
 		suboptimal.frequency = ~0;
@@ -127,6 +138,14 @@ int cpufreq_frequency_table_target(struct cpufreq_policy *policy,
 
 	for (i = 0; (table[i].frequency != CPUFREQ_TABLE_END); i++) {
 		unsigned int freq = table[i].frequency;
+
+		if(enabled_freqs[i] == 0) {
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
+	printk("FREQ: skip disabled: %uMHz (target: %uMHz) \n",
+					(freq/1000), (target_freq/1000));
+#endif
+			continue;
+		}
 		if (freq == CPUFREQ_ENTRY_INVALID)
 			continue;
 		if ((freq < policy->min) || (freq > policy->max))
@@ -169,6 +188,11 @@ int cpufreq_frequency_table_target(struct cpufreq_policy *policy,
 
 	dprintk("target is %u (%u kHz, %u)\n", *index, table[*index].frequency,
 		table[*index].index);
+
+#ifdef CONFIG_DEBUG_SHADOWKERNEL
+	printk("FREQ: target is %u (%u MHz, %u)\n", *index, (table[*index].frequency/1000),
+		table[*index].index);
+#endif
 
 	return 0;
 }
