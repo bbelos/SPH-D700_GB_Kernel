@@ -69,6 +69,53 @@ if [ -f "/system/media/bootanimation.zip" ]; then
 ln -s /system/media/bootanimation.zip /system/media/sanim.zip
 fi
 
+#bash
+	if [ ! -f "/system/bin/bash" ]; then
+		busybox mv -f /sbin/bash /system/bin/bash
+	fi
+	busybox chmod 0755 /system/bin/bash
+
+	#check for bash resources
+	DEST_FILE="/system/etc/bash.bashrc"
+	SOURCE_FILE="/extras/files/bash.bashrc"
+	if [ ! -f "$DEST_FILE" ]; then
+		busybox mv "$SOURCE_FILE" "$DEST_FILE"
+	fi
+	DEST_FILE="/system/etc/profile"
+	SOURCE_FILE="/extras/files/profile"
+	if [ ! -f "$DEST_FILE" ]; then
+		busybox mv "$SOURCE_FILE" "$DEST_FILE"
+	fi
+	DEST_FILE="/data/local/.bash_aliases"
+	SOURCE_FILE="/extras/files/.bash_aliases"
+	if [ ! -f "$DEST_FILE" ]; then
+		busybox mv "$SOURCE_FILE" "$DEST_FILE"
+	fi
+	DEST_FILE="/data/local/.bashrc"
+	SOURCE_FILE="/extras/files/.bashrc"
+	if [ ! -f "$DEST_FILE" ]; then
+		busybox mv "$SOURCE_FILE" "$DEST_FILE"
+	fi
+	DEST_FILE="/data/local/.inputrc"
+	SOURCE_FILE="/extras/files/.inputrc"
+	if [ ! -f "$DEST_FILE" ]; then
+		busybox mv "$SOURCE_FILE" "$DEST_FILE"
+	fi
+	DEST_FILE="/data/local/.profile"
+	SOURCE_FILE="/extras/files/.profile"
+	if [ ! -f "$DEST_FILE" ]; then
+		busybox mv "$SOURCE_FILE" "$DEST_FILE"
+	fi
+
+	#check for bash as default shell
+	BASH_FOUND=$(busybox ls -l "/system/bin/sh" | busybox grep "/system/bin/bash")
+	if [ ! "$BASH_FOUND" = "" ] && [ -f "/system/bin/bash" ]; then
+		busybox rm -f /bin/sh
+		busybox rm -f /sbin/sh
+		busybox ln -s /bin/sh /system/bin/sh
+		busybox ln -s /sbin/sh /system/bin/sh
+	fi
+
 # remount read only and continue
 busybox  mount -o remount,ro / /
 busybox  mount -o remount,ro /system /system
