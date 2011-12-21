@@ -31,13 +31,6 @@ if [ ! -f "/system/app/Superuser.apk" ] && [ ! -f "/data/app/Superuser.apk" ] &&
 fi
 sync
 
-# Enable init.d support
-if [ -d /system/etc/init.d ]
-then
-	logwrapper busybox run-parts /system/etc/init.d
-fi
-sync
-
 # Fix screwy ownerships
 for blip in conf default.prop fota.rc init init.goldfish.rc init.rc init.smdkc110.rc lib lpm.rc modules recovery.rc res sbin bin
 do
@@ -119,3 +112,10 @@ fi
 # remount read only and continue
 busybox  mount -o remount,ro / /
 busybox  mount -o remount,ro /system /system
+
+# Enable init.d support
+if [ -d /system/etc/init.d ]
+then
+	logwrapper busybox run-parts /system/etc/init.d
+fi
+sync
