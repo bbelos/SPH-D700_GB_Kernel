@@ -1,0 +1,17 @@
+[device]
+# mount point	fstype		device			format option	mount option
+/sdcard		vfat	/dev/block/mmcblk0p1	default		default
+/system		ext4	/dev/block/mmcblk0p2	default		default
+/cache		ext4	/dev/block/mmcblk0p4	default		default
+/data		ext4	/dev/block/mmcblk0p3	default		default
+/tmp		tmpfs		nodev			default		default
+
+[format]
+#index		option
+rfs16	"/sbin/fat.format -F 16 -s 1 -S 4096"
+rfs32	"/sbin/fat.format -F 32 -s 1 -S 4096"
+
+[mount]
+#index		flags					options
+rfs_opt1	nosuid,noatime,nodev,nodiratime		"check=no"
+rfs_opt2	ro,nosuid,nodev				"check=no"
