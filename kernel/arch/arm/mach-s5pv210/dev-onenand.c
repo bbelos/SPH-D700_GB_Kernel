@@ -32,12 +32,14 @@ static struct resource s5pc110_onenand_resources[] = {
 	},
 };
 
-struct platform_device s5pc110_device_onenand = {
-	.name		= "s5pc110-onenand",
+struct platform_device s5p_device_onenand = {
+	.name		= "s5p-onenand",
 	.id		= -1,
 	.num_resources	= ARRAY_SIZE(s5pc110_onenand_resources),
 	.resource	= s5pc110_onenand_resources,
 };
+
+EXPORT_SYMBOL(s5p_device_onenand);
 
 void s5pc110_onenand_set_platdata(struct onenand_platform_data *pdata)
 {
@@ -46,5 +48,5 @@ void s5pc110_onenand_set_platdata(struct onenand_platform_data *pdata)
 	pd = kmemdup(pdata, sizeof(struct onenand_platform_data), GFP_KERNEL);
 	if (!pd)
 		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
-	s5pc110_device_onenand.dev.platform_data = pd;
+	s5p_device_onenand.dev.platform_data = pd;
 }

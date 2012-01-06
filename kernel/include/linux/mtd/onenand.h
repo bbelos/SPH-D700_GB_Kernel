@@ -68,7 +68,6 @@ struct onenand_bufferram {
  * @write_word:		[REPLACEABLE] hardware specific function for write
  *			register of OneNAND
  * @mmcontrol:		sync burst read function
- * @chip_probe:		[REPLACEABLE] hardware specific function for chip probe
  * @block_markbad:	function to mark a block as bad
  * @scan_bbt:		[REPLACEALBE] hardware specific function for scanning
  *			Bad block Table
@@ -103,7 +102,6 @@ struct onenand_chip {
 
 	unsigned int		bufferram_index;
 	struct onenand_bufferram	bufferram[MAX_BUFFERRAM];
-	struct clk		*clk;
 
 	int (*command)(struct mtd_info *mtd, int cmd, loff_t address, size_t len);
 	int (*wait)(struct mtd_info *mtd, int state);
@@ -116,7 +114,6 @@ struct onenand_chip {
 	unsigned short (*read_word)(void __iomem *addr);
 	void (*write_word)(unsigned short value, void __iomem *addr);
 	void (*mmcontrol)(struct mtd_info *mtd, int sync_read);
-	int (*chip_probe)(struct mtd_info *mtd);
 	int (*block_markbad)(struct mtd_info *mtd, loff_t ofs);
 	int (*scan_bbt)(struct mtd_info *mtd);
 
@@ -138,6 +135,9 @@ struct onenand_chip {
 	void			*bbm;
 
 	void			*priv;
+
+	unsigned int	ecc_registers;
+	unsigned int	error_mask;
 };
 
 /*
@@ -165,6 +165,14 @@ struct onenand_chip {
 #define ONENAND_IS_MLC(this)						\
 	(this->technology & ONENAND_TECHNOLOGY_IS_MLC)
 
+#define ONENAND_IS_SINGLE_DATARAM(this)				\
+	(this->options & ONENAND_PAGE_EQUALS_DATARAM)
+
+#define ONENAND_NO_OOB_CMD                      ONENAND_IS_SINGLE_DATARAM
+
+#define OTP_LOCK_IN_MAIN(this)						\
+	(this->options & ONENAND_OTP_LOCK_OFFSET_IN_MAIN)
+
 #ifdef CONFIG_MTD_ONENAND_2X_PROGRAM
 #define ONENAND_IS_2PLANE(this)						\
 	(this->options & ONENAND_HAS_2PLANE)
@@ -182,6 +190,8 @@ struct onenand_chip {
 #define ONENAND_HAS_UNLOCK_ALL		(0x0002)
 #define ONENAND_HAS_2PLANE		(0x0004)
 #define ONENAND_HAS_4KB_PAGE		(0x0008)
+#define ONENAND_PAGE_EQUALS_DATARAM	(0x0008)
+#define ONENAND_OTP_LOCK_OFFSET_IN_MAIN	(0x0010)
 #define ONENAND_SKIP_UNLOCK_CHECK	(0x0100)
 #define ONENAND_PAGEBUF_ALLOC		(0x1000)
 #define ONENAND_OOBBUF_ALLOC		(0x2000)
