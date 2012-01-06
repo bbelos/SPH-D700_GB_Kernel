@@ -2521,7 +2521,7 @@ static int multipdp_init(void)
 		{ .id = 1, .ifname = "ttyCSD" },
 		{ .id = 7, .ifname = "ttyCDMA" },
 		{ .id = 9, .ifname = "ttyTRFB" },
-		{ .id = 27, .ifname = "ttyCIQ" },
+		//{ .id = 27, .ifname = "ttyCIQ" },
 	};
 
 
