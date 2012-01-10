@@ -10,10 +10,16 @@ busybox ln -s /sbin/recovery /system/bin/busybox
 #/system/bin/busybox rm /sbin/busybox
 
 # Setup su binary
-busybox cp -f /sbin/su /system/bin/su
-chmod 6755 /system/bin/su
-busybox ln -s /system/bin/su /system/xbin/su
-busybox rm /sbin/su
+if [ ! -f /system/bin/su ]; then
+  busybox cp -f /sbin/su /system/bin/su
+  busybox ln -s /system/bin/su /system/xbin/su
+  busybox rm /sbin/su
+  chown root.root /system/bin/su
+  chmod 6755 /system/bin/su
+else
+  chown root.root /system/bin/su
+  chmod 6755 /system/bin/su
+fi
 
 # Install Superuser.apk (only if not installed)
 # make room
