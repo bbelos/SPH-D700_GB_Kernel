@@ -719,7 +719,8 @@ rndis_bind(struct usb_configuration *c, struct usb_function *f)
 #endif
 
 	rndis_control_intf.bInterfaceNumber = status;
-	rndis_union_desc.bMasterInterface0 = status;
+	//rndis_union_desc.bMasterInterface0 = status;
+	rndis_union_desc.bMasterInterface0 = 0;
 
 	status = usb_interface_id(c, f);
 	if (status < 0)
@@ -727,7 +728,8 @@ rndis_bind(struct usb_configuration *c, struct usb_function *f)
 	rndis->data_id = status;
 
 	rndis_data_intf.bInterfaceNumber = status;
-	rndis_union_desc.bSlaveInterface0 = status;
+	//rndis_union_desc.bSlaveInterface0 = status;
+	rndis_union_desc.bSlaveInterface0 = 1;
 
 	status = -ENODEV;
 
