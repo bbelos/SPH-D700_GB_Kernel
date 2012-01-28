@@ -17,6 +17,7 @@ if [ ! -f /system/bin/su ]; then
   chown root.root /system/bin/su
   chmod 6755 /system/bin/su
 else
+  busybox rm /sbin/su
   chown root.root /system/bin/su
   chmod 6755 /system/bin/su
 fi
